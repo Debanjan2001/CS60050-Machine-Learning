@@ -1,3 +1,4 @@
+from typing import Coroutine
 import util
 
 class Node:
@@ -14,7 +15,7 @@ class Node:
 
         return f'{self.attribute}\n<={self.value}'
 
-def build_decision_tree(dataset, attributes:list,current_height = 0, max_height = 10):  
+def build_decision_tree(dataset, attributes:list,current_height = 0, max_height = 10, impurity_function = None):  
     '''
         This function is the main build function that handles the construction 
         of the decision tree. It is a recursive function. It implements the ID3 
@@ -31,6 +32,13 @@ def build_decision_tree(dataset, attributes:list,current_height = 0, max_height 
         current_height: The current height upto which the tree has been built
 
         max_height: Represents the maximum height upto which the tree will be built 
+
+        impurity_function: Function pointer to the function used for calculating impurity
+
+        Returns
+        -----------
+
+        root: Root of the decision tree created
     '''  
     # If the no sample remains
     if len(dataset) == 0:
@@ -43,7 +51,7 @@ def build_decision_tree(dataset, attributes:list,current_height = 0, max_height 
 
     # select the best attribute to be selected for this node
     # with the help of the utility functions
-    best_attribute,split_value,gini_index = util.get_best_attr(dataset, attributes, util.calculate_information_gain)
+    best_attribute,split_value,gini_index = util.get_best_attr(dataset, attributes, impurity_function)
     left_dataset, right_dataset = [], []
 
     if(best_attribute == None):
@@ -60,8 +68,8 @@ def build_decision_tree(dataset, attributes:list,current_height = 0, max_height 
     # recursively build the left and the right children of
     # the current node and the return this node as the head
     root = Node(best_attribute,split_value)
-    root.left = build_decision_tree(left_dataset,attributes,current_height +1 ,max_height)
-    root.right = build_decision_tree(right_dataset, attributes, current_height + 1 ,max_height)
+    root.left = build_decision_tree(left_dataset,attributes,current_height +1 ,max_height, impurity_function)
+    root.right = build_decision_tree(right_dataset, attributes, current_height + 1 ,max_height, impurity_function)
     
     attributes.append(best_attribute)
 
@@ -104,3 +112,14 @@ def predict_list(root, X_input):
     for data in X_input:
         Y_pred.append(predict(root, data))
     return Y_pred
+
+def get_accuracy(root, X_test):
+    Y_pred = predict_list(root, X_test)
+
+    correct_predicted = 0
+    total_elements = len(X_test)
+    for i in range(len(X_test)):
+        correct_predicted += (Y_pred[i] == X_test[i]["Outcome"])
+    
+    acc = 100*(correct_predicted/total_elements)
+    return acc
