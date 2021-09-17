@@ -46,6 +46,9 @@ def build_decision_tree(dataset, attributes:list,current_height = 0, max_height 
     best_attribute,split_value,gini_index = util.get_best_attr(dataset, attributes, util.calculate_information_gain)
     left_dataset, right_dataset = [], []
 
+    if(best_attribute == None):
+        return Node("Outcome",sum(i["Outcome"] == 1 for i in dataset) > sum(i["Outcome"] == 0 for i in dataset))
+        
     # Divide the dataset according to the split_value
     for row in dataset:
         if row[best_attribute] <= split_value :
@@ -64,7 +67,7 @@ def build_decision_tree(dataset, attributes:list,current_height = 0, max_height 
 
 
     if root.left == None and root.right == None:
-        root.attr = 'Outcome'
+        root.attribute = 'Outcome'
         root.value = sum(i["Outcome"] == 1 for i in dataset) > sum(i["Outcome"] == 0 for i in dataset)  
   
     return root
@@ -92,7 +95,7 @@ def predict(root, data):
 
     # based on the decision either recurse to the left
     # or the right half until the leaf node is reached
-    if data[root.attr] <= root.split:
+    if data[root.attribute] <= root.value:
         return predict(root.left, data)
     return predict(root.right, data)
 

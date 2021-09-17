@@ -59,7 +59,7 @@ def train_test_split(dataframe):
 
     X, attributes = convert_data(dataframe)
     random.shuffle(X)
-    split_point = 0.8*len(X)
+    split_point = int(0.8*len(X))
     X_train, X_test = X[:split_point], X[split_point:]
 
     return X_train, X_test, attributes
@@ -93,14 +93,8 @@ def get_best_attr(dataset, attributes, function = None):
             left_size =  len(left_array)
             right_size =  len(right_array)
 
-            if (left_size == 0) and (right_size == 0):
+            if (left_size == 0) or (right_size == 0):
                 continue
-            elif (left_size == 0):
-                right_impurity = function(right_array)
-                avg_impurity = right_impurity
-            elif (right_size == 0):
-                left_impurity = function(left_array)
-                avg_impurity = left_impurity
             else:           
                 left_impurity = function(left_array)
                 right_impurity = function(right_array)
@@ -110,9 +104,7 @@ def get_best_attr(dataset, attributes, function = None):
                 best_index = avg_impurity
                 best_attribute_choice = attribute
                 split_value = row["Value"]
-    if(best_attribute_choice == None):
-        print(attributes)
-        print(dataset)
+                
     return best_attribute_choice,split_value,best_index
 
 
