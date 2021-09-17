@@ -48,7 +48,7 @@ def build_decision_tree(dataset, attributes:list,current_height = 0, max_height 
 
     if(best_attribute == None):
         return Node("Outcome",sum(i["Outcome"] == 1 for i in dataset) > sum(i["Outcome"] == 0 for i in dataset))
-        
+
     # Divide the dataset according to the split_value
     for row in dataset:
         if row[best_attribute] <= split_value :

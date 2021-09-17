@@ -35,8 +35,8 @@ digraph "Decision Tree" {
 <=60" -> "Pregnancies
 <=1" [label=True]
 	"Age
-<=60" -> "BloodPressure
-<=80" [label=False]
+<=60" -> "SkinThickness
+<=0" [label=False]
 	"BloodPressure
 <=60" -> "Age
 <=40" [label=True]
@@ -49,14 +49,14 @@ digraph "Decision Tree" {
 	"Pregnancies
 <=7" -> "Outcome = True" [label=False]
 	"BloodPressure
-<=30" -> "Insulin
-<=0" [label=True]
+<=30" -> "DiabetesPedigreeFunction
+<=0.141" [label=True]
 	"BloodPressure
 <=30" -> "DiabetesPedigreeFunction
 <=0.498" [label=False]
 	"Pregnancies
-<=7" -> "BloodPressure
-<=74" [label=True]
+<=7" -> "Insulin
+<=0" [label=True]
 	"Pregnancies
 <=7" -> "BloodPressure
 <=0" [label=False]
@@ -72,12 +72,12 @@ digraph "Decision Tree" {
 	"Pregnancies
 <=1" -> "BloodPressure
 <=74" [label=False]
-	"BloodPressure
-<=80" -> "SkinThickness
-<=0" [label=True]
-	"BloodPressure
-<=80" -> "Pregnancies
-<=4" [label=False]
+	"SkinThickness
+<=0" -> "Pregnancies
+<=5" [label=True]
+	"SkinThickness
+<=0" -> "BloodPressure
+<=60" [label=False]
 	"Age
 <=40" -> "Pregnancies
 <=0" [label=True]
@@ -91,27 +91,27 @@ digraph "Decision Tree" {
 <=30" -> "DiabetesPedigreeFunction
 <=1.353" [label=False]
 	"DiabetesPedigreeFunction
-<=0.666" -> "BloodPressure
-<=66" [label=True]
+<=0.666" -> "SkinThickness
+<=23" [label=True]
 	"DiabetesPedigreeFunction
 <=0.666" -> "SkinThickness
 <=13" [label=False]
-	"Insulin
-<=0" -> "Outcome = True" [label=True]
-	"Insulin
-<=0" -> "Outcome = True" [label=False]
+	"DiabetesPedigreeFunction
+<=0.141" -> "Outcome = True" [label=True]
+	"DiabetesPedigreeFunction
+<=0.141" -> "Outcome = True" [label=False]
 	"DiabetesPedigreeFunction
 <=0.498" -> "SkinThickness
 <=0" [label=True]
 	"DiabetesPedigreeFunction
 <=0.498" -> "Insulin
 <=167" [label=False]
-	"BloodPressure
-<=74" -> "SkinThickness
-<=0" [label=True]
-	"BloodPressure
-<=74" -> "SkinThickness
-<=0" [label=False]
+	"Insulin
+<=0" -> "DiabetesPedigreeFunction
+<=0.201" [label=True]
+	"Insulin
+<=0" -> "SkinThickness
+<=33" [label=False]
 	"BloodPressure
 <=0" -> "Outcome = True" [label=True]
 	"BloodPressure
@@ -127,8 +127,8 @@ digraph "Decision Tree" {
 <=8" -> "Insulin
 <=119" [label=True]
 	"Pregnancies
-<=8" -> "SkinThickness
-<=37" [label=False]
+<=8" -> "BloodPressure
+<=76" [label=False]
 	"SkinThickness
 <=27" -> "BloodPressure
 <=72" [label=True]
@@ -140,28 +140,29 @@ digraph "Decision Tree" {
 	"BloodPressure
 <=74" -> "DiabetesPedigreeFunction
 <=0.129" [label=False]
-	"SkinThickness
-<=0" -> "Pregnancies
-<=5" [label=True]
-	"SkinThickness
+	"Pregnancies
+<=5" -> "BloodPressure
+<=80" [label=True]
+	"Pregnancies
+<=5" -> "DiabetesPedigreeFunction
+<=0.304" [label=False]
+	"BloodPressure
+<=60" -> "Outcome = False" [label=True]
+	"BloodPressure
+<=60" -> "Pregnancies
+<=4" [label=False]
+	"Pregnancies
 <=0" -> "Insulin
-<=60" [label=False]
-	"Pregnancies
-<=4" -> "Outcome = False" [label=True]
-	"Pregnancies
-<=4" -> "Outcome = False" [label=False]
-	"Pregnancies
-<=0" -> "DiabetesPedigreeFunction
-<=0.27" [label=True]
+<=168" [label=True]
 	"Pregnancies
 <=0" -> "SkinThickness
 <=32" [label=False]
 	"Pregnancies
-<=1" -> "SkinThickness
-<=0" [label=True]
-	"Pregnancies
 <=1" -> "DiabetesPedigreeFunction
-<=0.304" [label=False]
+<=0.282" [label=True]
+	"Pregnancies
+<=1" -> "SkinThickness
+<=0" [label=False]
 	"DiabetesPedigreeFunction
 <=1.101" -> "Insulin
 <=250" [label=True]
@@ -172,12 +173,12 @@ digraph "Decision Tree" {
 <=1.353" -> "SkinThickness
 <=44" [label=True]
 	"DiabetesPedigreeFunction
-<=1.353" -> "SkinThickness
+<=1.353" -> "Insulin
 <=0" [label=False]
-	"BloodPressure
-<=66" -> "Outcome = False" [label=True]
-	"BloodPressure
-<=66" -> "Outcome = False" [label=False]
+	"SkinThickness
+<=23" -> "Outcome = False" [label=True]
+	"SkinThickness
+<=23" -> "Outcome = False" [label=False]
 	"SkinThickness
 <=13" -> "Outcome = False" [label=True]
 	"SkinThickness
@@ -190,14 +191,14 @@ digraph "Decision Tree" {
 <=167" -> "Outcome = False" [label=True]
 	"Insulin
 <=167" -> "Outcome = False" [label=False]
+	"DiabetesPedigreeFunction
+<=0.201" -> "Outcome = False" [label=True]
+	"DiabetesPedigreeFunction
+<=0.201" -> "Outcome = False" [label=False]
 	"SkinThickness
-<=0" -> "Outcome = False" [label=True]
+<=33" -> "Outcome = False" [label=True]
 	"SkinThickness
-<=0" -> "Outcome = False" [label=False]
-	"SkinThickness
-<=0" -> "Outcome = False" [label=True]
-	"SkinThickness
-<=0" -> "Outcome = False" [label=False]
+<=33" -> "Outcome = False" [label=False]
 	"DiabetesPedigreeFunction
 <=0.232" -> "Outcome = False" [label=True]
 	"DiabetesPedigreeFunction
@@ -214,10 +215,10 @@ digraph "Decision Tree" {
 <=119" -> "Outcome = False" [label=True]
 	"Insulin
 <=119" -> "Outcome = True" [label=False]
-	"SkinThickness
-<=37" -> "Outcome = True" [label=True]
-	"SkinThickness
-<=37" -> "Outcome = True" [label=False]
+	"BloodPressure
+<=76" -> "Outcome = True" [label=True]
+	"BloodPressure
+<=76" -> "Outcome = True" [label=False]
 	"BloodPressure
 <=72" -> "Outcome = False" [label=True]
 	"BloodPressure
@@ -230,30 +231,34 @@ digraph "Decision Tree" {
 <=0.129" -> "Outcome = True" [label=True]
 	"DiabetesPedigreeFunction
 <=0.129" -> "Outcome = False" [label=False]
-	"Pregnancies
-<=5" -> "Outcome = False" [label=True]
-	"Pregnancies
-<=5" -> "Outcome = False" [label=False]
-	"Insulin
-<=60" -> "Outcome = False" [label=True]
-	"Insulin
-<=60" -> "Outcome = False" [label=False]
+	"BloodPressure
+<=80" -> "Outcome = False" [label=True]
+	"BloodPressure
+<=80" -> "Outcome = False" [label=False]
 	"DiabetesPedigreeFunction
-<=0.27" -> "Outcome = True" [label=True]
+<=0.304" -> "Outcome = False" [label=True]
 	"DiabetesPedigreeFunction
-<=0.27" -> "Outcome = True" [label=False]
+<=0.304" -> "Outcome = False" [label=False]
+	"Pregnancies
+<=4" -> "Outcome = False" [label=True]
+	"Pregnancies
+<=4" -> "Outcome = False" [label=False]
+	"Insulin
+<=168" -> "Outcome = True" [label=True]
+	"Insulin
+<=168" -> "Outcome = True" [label=False]
 	"SkinThickness
 <=32" -> "Outcome = True" [label=True]
 	"SkinThickness
 <=32" -> "Outcome = True" [label=False]
+	"DiabetesPedigreeFunction
+<=0.282" -> "Outcome = True" [label=True]
+	"DiabetesPedigreeFunction
+<=0.282" -> "Outcome = True" [label=False]
 	"SkinThickness
-<=0" -> "Outcome = True" [label=True]
+<=0" -> "Outcome = False" [label=True]
 	"SkinThickness
 <=0" -> "Outcome = True" [label=False]
-	"DiabetesPedigreeFunction
-<=0.304" -> "Outcome = False" [label=True]
-	"DiabetesPedigreeFunction
-<=0.304" -> "Outcome = True" [label=False]
 	"Insulin
 <=250" -> "Outcome = True" [label=True]
 	"Insulin
@@ -266,8 +271,8 @@ digraph "Decision Tree" {
 <=44" -> "Outcome = True" [label=True]
 	"SkinThickness
 <=44" -> "Outcome = True" [label=False]
-	"SkinThickness
+	"Insulin
 <=0" -> "Outcome = False" [label=True]
-	"SkinThickness
+	"Insulin
 <=0" -> "Outcome = False" [label=False]
 }
