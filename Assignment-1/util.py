@@ -3,10 +3,10 @@
 
 import pandas as pd
 import random
-from model import Node
 from graphviz import Digraph
 import math
-
+import model
+from matplotlib import pyplot as plt
 
 def get_data_from_csv(file):
     dataframe = pd.read_csv(file)
@@ -64,7 +64,7 @@ def train_test_split(dataframe):
 
     return X_train, X_test, attributes
 
-def get_best_attr(dataset, attributes, function = None):
+def get_best_attr(dataset, attributes, impurity_function = None):
     random.shuffle(attributes)
 
     best_attribute_choice = None
@@ -96,8 +96,8 @@ def get_best_attr(dataset, attributes, function = None):
             if (left_size == 0) or (right_size == 0):
                 continue
             else:           
-                left_impurity = function(left_array)
-                right_impurity = function(right_array)
+                left_impurity = impurity_function(left_array)
+                right_impurity = impurity_function(right_array)
                 avg_impurity = (left_impurity * (left_size) + right_impurity * (right_size) ) / num_rows
 
             if avg_impurity < best_index :
@@ -167,7 +167,7 @@ def calculate_information_gain(data):
 def print_decision_tree(root):
     
     '''
-    this function prints the ddecision tree graph so created 
+    this function prints the decision tree graph so created 
     and saves the output in the a pdf file 
 
     Parameter
@@ -200,6 +200,96 @@ def print_decision_tree(root):
 
     # save file name :  decision_tree.gv.pdf
     f.render('decision_tree.gv', view=True)
+
+
+def get_best_depth(dataframe):
+    """
+    A helper function to determine the best possible depth for the decision tree
+    @paramters:
+    ==> dataframe : A Pandas Dataframe built from the csv dataset
+    ==> X_test    : Test set  
+
+    @returns:
+    ==> depth     : best depth for which test_dataset performs the best 
+    """
+    best_depth, best_accuracy, best_tree = 10000, 0, None
+    max_depth = 1+int(math.log2(dataframe.shape[0]))
+    X_train, X_test, attributes = train_test_split(dataframe)
+    
+    depthToAccuracy = []
+    nodeCountToAccuracy = []
+
+    from tqdm import tqdm
+    """
+        Progress Bar might be removed for submission files
+    """
+    for depth in tqdm(range(1,max_depth+1)):
+
+        root = model.build_decision_tree(
+            dataset=X_train, 
+            attributes=attributes,
+            impurity_function = calculate_gini_index,
+            current_height = 0,
+            max_height = depth
+        )    
+
+        accuracy = model.get_accuracy(
+            root = root,
+            X_test = X_test
+        )
+
+        if accuracy>best_accuracy:
+            best_depth = depth
+            best_accuracy = accuracy
+            best_tree = root
+
+        # root = model.build_decision_tree(
+        #     dataset=X_train, 
+        #     attributes=attributes,
+        #     impurity_function = calculate_information_gain,
+        #     current_height = 0,
+        #     max_height = depth
+        # )    
+
+        # accuracy = model.get_accuracy(
+        #     root = root,
+        #     X_test = X_test
+        # )
+
+        # if accuracy>best_accuracy:
+        #     best_depth = depth
+        #     best_accuracy = accuracy
+        #     best_tree = root
+
+        depthToAccuracy.append([depth,accuracy])
+        nodeCountToAccuracy.append([root.count_nodes(), accuracy])
+
+    plt.xlabel('Depth')
+    plt.ylabel('Accuracy(%)')
+    plt.title("Accuracy Vs Depth")
+    plt.plot(
+        [x for x,_ in depthToAccuracy],
+        [y for _,y in depthToAccuracy],
+        marker='o',
+        color='red'
+    )
+    plt.savefig('question3_1.pdf')
+
+    nodeCountToAccuracy.sort()
+    plt.clf()
+
+    plt.xlabel('No.of Nodes')
+    plt.ylabel('Accuracy(%)')
+    plt.title("Accuracy Vs No.of Nodes")
+    plt.plot(
+        [x for x,_ in nodeCountToAccuracy],
+        [y for _,y in nodeCountToAccuracy],
+        color='red',
+        marker='o'
+    )
+    plt.savefig('question3_2.pdf')
+
+    return best_depth, best_accuracy, best_tree
 
 
 

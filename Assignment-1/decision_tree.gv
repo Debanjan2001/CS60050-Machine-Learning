@@ -1,268 +1,273 @@
 digraph "Decision Tree" {
 	rankdir=LR size="1000,500"
 	node [shape=rectangle]
-	"Glucose
-<=127" -> "Age
-<=28" [label=True]
-	"Glucose
-<=127" -> "BMI
-<=29.9" [label=False]
-	"Age
-<=28" -> "BMI
-<=45.3" [label=True]
-	"Age
-<=28" -> "BMI
-<=26.2" [label=False]
-	"BMI
-<=29.9" -> "Age
-<=26" [label=True]
-	"BMI
-<=29.9" -> "DiabetesPedigreeFunction
-<=0.304" [label=False]
-	"BMI
-<=45.3" -> "Pregnancies
-<=7" [label=True]
-	"BMI
-<=45.3" -> "DiabetesPedigreeFunction
-<=0.496" [label=False]
-	"BMI
-<=26.2" -> "BloodPressure
-<=92" [label=True]
-	"BMI
-<=26.2" -> "DiabetesPedigreeFunction
-<=0.61" [label=False]
-	"Age
-<=26" -> "Insulin
-<=0" [label=True]
-	"Age
-<=26" -> "Insulin
-<=0" [label=False]
-	"DiabetesPedigreeFunction
-<=0.304" -> "BloodPressure
-<=95" [label=True]
-	"DiabetesPedigreeFunction
-<=0.304" -> "Insulin
-<=328" [label=False]
-	"Pregnancies
-<=7" -> "DiabetesPedigreeFunction
-<=0.498" [label=True]
-	"Pregnancies
-<=7" -> "Outcome = True" [label=False]
-	"DiabetesPedigreeFunction
-<=0.496" -> "Insulin
-<=99" [label=True]
-	"DiabetesPedigreeFunction
-<=0.496" -> "Outcome = False" [label=False]
-	"BloodPressure
-<=92" -> "Pregnancies
-<=9" [label=True]
-	"BloodPressure
-<=92" -> "DiabetesPedigreeFunction
-<=0.232" [label=False]
-	"DiabetesPedigreeFunction
-<=0.61" -> "SkinThickness
-<=36" [label=True]
-	"DiabetesPedigreeFunction
-<=0.61" -> "Pregnancies
-<=7" [label=False]
-	"Insulin
-<=0" -> "DiabetesPedigreeFunction
-<=0.326" [label=True]
-	"Insulin
-<=0" -> "Pregnancies
-<=2" [label=False]
-	"Insulin
-<=0" -> "BloodPressure
-<=0" [label=True]
-	"Insulin
-<=0" -> "Pregnancies
-<=3" [label=False]
-	"BloodPressure
-<=95" -> "Insulin
-<=440" [label=True]
-	"BloodPressure
-<=95" -> "SkinThickness
-<=0" [label=False]
-	"Insulin
-<=328" -> "BloodPressure
-<=72" [label=True]
-	"Insulin
-<=328" -> "BloodPressure
-<=68" [label=False]
-	"DiabetesPedigreeFunction
-<=0.498" -> "BloodPressure
-<=52" [label=True]
-	"DiabetesPedigreeFunction
-<=0.498" -> "SkinThickness
-<=30" [label=False]
-	"Insulin
-<=99" -> "Pregnancies
-<=1" [label=True]
-	"Insulin
-<=99" -> "Outcome = True" [label=False]
-	"Pregnancies
-<=9" -> "Insulin
-<=0" [label=True]
-	"Pregnancies
-<=9" -> "DiabetesPedigreeFunction
-<=0.167" [label=False]
-	"DiabetesPedigreeFunction
-<=0.232" -> "Outcome = True" [label=True]
-	"DiabetesPedigreeFunction
-<=0.232" -> "Outcome = False" [label=False]
-	"SkinThickness
-<=36" -> "BloodPressure
-<=82" [label=True]
-	"SkinThickness
-<=36" -> "Insulin
-<=180" [label=False]
-	"Pregnancies
-<=7" -> "Insulin
-<=119" [label=True]
-	"Pregnancies
-<=7" -> "SkinThickness
-<=39" [label=False]
-	"DiabetesPedigreeFunction
-<=0.326" -> "Pregnancies
-<=1" [label=True]
-	"DiabetesPedigreeFunction
-<=0.326" -> "BloodPressure
-<=54" [label=False]
-	"Pregnancies
-<=2" -> "SkinThickness
-<=18" [label=True]
-	"Pregnancies
-<=2" -> "Outcome = False" [label=False]
-	"BloodPressure
-<=0" -> "DiabetesPedigreeFunction
-<=0.212" [label=True]
-	"BloodPressure
-<=0" -> "Pregnancies
-<=5" [label=False]
-	"Pregnancies
-<=3" -> "SkinThickness
-<=17" [label=True]
-	"Pregnancies
-<=3" -> "BloodPressure
-<=60" [label=False]
-	"Insulin
-<=440" -> "Age
-<=28" [label=True]
-	"Insulin
-<=440" -> "SkinThickness
-<=33" [label=False]
-	"SkinThickness
-<=0" -> "Age
-<=37" [label=True]
-	"SkinThickness
-<=0" -> "Pregnancies
-<=1" [label=False]
-	"BloodPressure
-<=72" -> "SkinThickness
-<=25" [label=True]
-	"BloodPressure
-<=72" -> "Age
-<=30" [label=False]
-	"BloodPressure
-<=68" -> "SkinThickness
-<=36" [label=True]
-	"BloodPressure
-<=68" -> "SkinThickness
-<=44" [label=False]
-	"BloodPressure
-<=52" -> "Outcome = False" [label=True]
-	"BloodPressure
-<=52" -> "Outcome = False" [label=False]
-	"SkinThickness
-<=30" -> "Outcome = False" [label=True]
-	"SkinThickness
-<=30" -> "Outcome = False" [label=False]
-	"Pregnancies
-<=1" -> "Outcome = True" [label=True]
-	"Pregnancies
-<=1" -> "Outcome = True" [label=False]
-	"Insulin
-<=0" -> "Outcome = False" [label=True]
-	"Insulin
-<=0" -> "Outcome = False" [label=False]
-	"DiabetesPedigreeFunction
-<=0.167" -> "Outcome = False" [label=True]
-	"DiabetesPedigreeFunction
-<=0.167" -> "Outcome = False" [label=False]
-	"BloodPressure
-<=82" -> "Outcome = False" [label=True]
-	"BloodPressure
-<=82" -> "Outcome = False" [label=False]
-	"Insulin
-<=180" -> "Outcome = False" [label=True]
-	"Insulin
-<=180" -> "Outcome = True" [label=False]
-	"Insulin
-<=119" -> "Outcome = False" [label=True]
-	"Insulin
-<=119" -> "Outcome = True" [label=False]
-	"SkinThickness
-<=39" -> "Outcome = True" [label=True]
-	"SkinThickness
-<=39" -> "Outcome = True" [label=False]
-	"Pregnancies
-<=1" -> "Outcome = False" [label=True]
-	"Pregnancies
-<=1" -> "Outcome = False" [label=False]
-	"BloodPressure
-<=54" -> "Outcome = True" [label=True]
-	"BloodPressure
-<=54" -> "Outcome = True" [label=False]
-	"SkinThickness
-<=18" -> "Outcome = False" [label=True]
-	"SkinThickness
-<=18" -> "Outcome = False" [label=False]
-	"DiabetesPedigreeFunction
-<=0.212" -> "Outcome = True" [label=True]
-	"DiabetesPedigreeFunction
-<=0.212" -> "Outcome = True" [label=False]
-	"Pregnancies
-<=5" -> "Outcome = False" [label=True]
-	"Pregnancies
-<=5" -> "Outcome = False" [label=False]
-	"SkinThickness
-<=17" -> "Outcome = True" [label=True]
-	"SkinThickness
-<=17" -> "Outcome = True" [label=False]
-	"BloodPressure
-<=60" -> "Outcome = False" [label=True]
-	"BloodPressure
-<=60" -> "Outcome = False" [label=False]
-	"Age
-<=28" -> "Outcome = False" [label=True]
-	"Age
-<=28" -> "Outcome = True" [label=False]
-	"SkinThickness
-<=33" -> "Outcome = True" [label=True]
-	"SkinThickness
-<=33" -> "Outcome = True" [label=False]
-	"Age
-<=37" -> "Outcome = True" [label=True]
-	"Age
-<=37" -> "Outcome = True" [label=False]
-	"Pregnancies
-<=1" -> "Outcome = True" [label=True]
-	"Pregnancies
-<=1" -> "Outcome = True" [label=False]
-	"SkinThickness
-<=25" -> "Outcome = True" [label=True]
-	"SkinThickness
-<=25" -> "Outcome = True" [label=False]
-	"Age
-<=30" -> "Outcome = True" [label=True]
-	"Age
-<=30" -> "Outcome = True" [label=False]
-	"SkinThickness
-<=36" -> "Outcome = True" [label=True]
-	"SkinThickness
-<=36" -> "Outcome = False" [label=False]
-	"SkinThickness
-<=44" -> "Outcome = False" [label=True]
-	"SkinThickness
-<=44" -> "Outcome = True" [label=False]
+	"id = 1
+Glucose <= 123
+ imp=0.37413152142627126" -> "id = 2
+Age <= 28
+ imp=0.2659523210993799" [label=True]
+	"id = 1
+Glucose <= 123
+ imp=0.37413152142627126" -> "id = 3
+BMI <= 30.0
+ imp=0.4396529760702989" [label=False]
+	"id = 2
+Age <= 28
+ imp=0.2659523210993799" -> "id = 4
+BMI <= 45.3
+ imp=0.11794117647058823" [label=True]
+	"id = 2
+Age <= 28
+ imp=0.2659523210993799" -> "id = 5
+BMI <= 26.2
+ imp=0.3886533414092469" [label=False]
+	"id = 3
+BMI <= 30.0
+ imp=0.4396529760702989" -> "id = 6
+Age <= 26
+ imp=0.3955050505050505" [label=True]
+	"id = 3
+BMI <= 30.0
+ imp=0.4396529760702989" -> "id = 7
+DiabetesPedigreeFunction <= 0.305
+ imp=0.41875858865426674" [label=False]
+	"id = 4
+BMI <= 45.3
+ imp=0.11794117647058823" -> "id = 8
+DiabetesPedigreeFunction <= 0.677
+ imp=0.10844444444444445" [label=True]
+	"id = 4
+BMI <= 45.3
+ imp=0.11794117647058823" -> "id = 9
+DiabetesPedigreeFunction <= 0.496
+ imp=0.0" [label=False]
+	"id = 5
+BMI <= 26.2
+ imp=0.3886533414092469" -> "id = 10
+BloodPressure <= 62
+ imp=0.0" [label=True]
+	"id = 5
+BMI <= 26.2
+ imp=0.3886533414092469" -> "id = 11
+Insulin <= 135
+ imp=0.4465035620547432" [label=False]
+	"id = 6
+Age <= 26
+ imp=0.3955050505050505" -> "id = 12
+Insulin <= 0
+ imp=0.09090909090909091" [label=True]
+	"id = 6
+Age <= 26
+ imp=0.3955050505050505" -> "id = 13
+BloodPressure <= 0
+ imp=0.4595744680851064" [label=False]
+	"id = 7
+DiabetesPedigreeFunction <= 0.305
+ imp=0.41875858865426674" -> "id = 14
+Insulin <= 440
+ imp=0.4584309133489461" [label=True]
+	"id = 7
+DiabetesPedigreeFunction <= 0.305
+ imp=0.41875858865426674" -> "id = 15
+BloodPressure <= 72
+ imp=0.3526107433264106" [label=False]
+	"id = 8
+DiabetesPedigreeFunction <= 0.677
+ imp=0.10844444444444445" -> "id = 16
+SkinThickness <= 36
+ imp=0.08215277777777777" [label=True]
+	"id = 8
+DiabetesPedigreeFunction <= 0.677
+ imp=0.10844444444444445" -> "id = 17
+Insulin <= 74
+ imp=0.22222222222222224" [label=False]
+	"id = 9
+DiabetesPedigreeFunction <= 0.496
+ imp=0.0" -> "id = 18
+Insulin <= 0
+ imp=0.0" [label=True]
+	"id = 9
+DiabetesPedigreeFunction <= 0.496
+ imp=0.0" -> "id = 19
+Outcome = False" [label=False]
+	"id = 10
+BloodPressure <= 62
+ imp=0.0" -> "id = 20
+SkinThickness <= 0
+ imp=0.0" [label=True]
+	"id = 10
+BloodPressure <= 62
+ imp=0.0" -> "id = 21
+SkinThickness <= 0
+ imp=0.0" [label=False]
+	"id = 11
+Insulin <= 135
+ imp=0.4465035620547432" -> "id = 22
+DiabetesPedigreeFunction <= 1.096
+ imp=0.42727987421383645" [label=True]
+	"id = 11
+Insulin <= 135
+ imp=0.4465035620547432" -> "id = 23
+BloodPressure <= 72
+ imp=0.31851851851851853" [label=False]
+	"id = 12
+Insulin <= 0
+ imp=0.09090909090909091" -> "id = 24
+DiabetesPedigreeFunction <= 0.326
+ imp=0.0" [label=True]
+	"id = 12
+Insulin <= 0
+ imp=0.09090909090909091" -> "id = 25
+SkinThickness <= 22
+ imp=0.0" [label=False]
+	"id = 13
+BloodPressure <= 0
+ imp=0.4595744680851064" -> "id = 26
+DiabetesPedigreeFunction <= 0.212
+ imp=0.0" [label=True]
+	"id = 13
+BloodPressure <= 0
+ imp=0.4595744680851064" -> "id = 27
+Insulin <= 75
+ imp=0.45890696704213596" [label=False]
+	"id = 14
+Insulin <= 440
+ imp=0.4584309133489461" -> "id = 28
+Age <= 28
+ imp=0.4557207498383969" [label=True]
+	"id = 14
+Insulin <= 440
+ imp=0.4584309133489461" -> "id = 29
+SkinThickness <= 24
+ imp=0.0" [label=False]
+	"id = 15
+BloodPressure <= 72
+ imp=0.3526107433264106" -> "id = 30
+SkinThickness <= 38
+ imp=0.14968837309262842" [label=True]
+	"id = 15
+BloodPressure <= 72
+ imp=0.3526107433264106" -> "id = 31
+Insulin <= 465
+ imp=0.4202512371526456" [label=False]
+	"id = 16
+SkinThickness <= 36
+ imp=0.08215277777777777" -> "id = 32
+Outcome = False" [label=True]
+	"id = 16
+SkinThickness <= 36
+ imp=0.08215277777777777" -> "id = 33
+Outcome = False" [label=False]
+	"id = 17
+Insulin <= 74
+ imp=0.22222222222222224" -> "id = 34
+Outcome = False" [label=True]
+	"id = 17
+Insulin <= 74
+ imp=0.22222222222222224" -> "id = 35
+Outcome = False" [label=False]
+	"id = 18
+Insulin <= 0
+ imp=0.0" -> "id = 36
+Outcome = True" [label=True]
+	"id = 18
+Insulin <= 0
+ imp=0.0" -> "id = 37
+Outcome = True" [label=False]
+	"id = 20
+SkinThickness <= 0
+ imp=0.0" -> "id = 40
+Outcome = False" [label=True]
+	"id = 20
+SkinThickness <= 0
+ imp=0.0" -> "id = 41
+Outcome = False" [label=False]
+	"id = 21
+SkinThickness <= 0
+ imp=0.0" -> "id = 42
+Outcome = False" [label=True]
+	"id = 21
+SkinThickness <= 0
+ imp=0.0" -> "id = 43
+Outcome = False" [label=False]
+	"id = 22
+DiabetesPedigreeFunction <= 1.096
+ imp=0.42727987421383645" -> "id = 44
+Outcome = False" [label=True]
+	"id = 22
+DiabetesPedigreeFunction <= 1.096
+ imp=0.42727987421383645" -> "id = 45
+Outcome = True" [label=False]
+	"id = 23
+BloodPressure <= 72
+ imp=0.31851851851851853" -> "id = 46
+Outcome = False" [label=True]
+	"id = 23
+BloodPressure <= 72
+ imp=0.31851851851851853" -> "id = 47
+Outcome = True" [label=False]
+	"id = 24
+DiabetesPedigreeFunction <= 0.326
+ imp=0.0" -> "id = 48
+Outcome = False" [label=True]
+	"id = 24
+DiabetesPedigreeFunction <= 0.326
+ imp=0.0" -> "id = 49
+Outcome = True" [label=False]
+	"id = 25
+SkinThickness <= 22
+ imp=0.0" -> "id = 50
+Outcome = False" [label=True]
+	"id = 25
+SkinThickness <= 22
+ imp=0.0" -> "id = 51
+Outcome = False" [label=False]
+	"id = 26
+DiabetesPedigreeFunction <= 0.212
+ imp=0.0" -> "id = 52
+Outcome = True" [label=True]
+	"id = 26
+DiabetesPedigreeFunction <= 0.212
+ imp=0.0" -> "id = 53
+Outcome = True" [label=False]
+	"id = 27
+Insulin <= 75
+ imp=0.45890696704213596" -> "id = 54
+Outcome = False" [label=True]
+	"id = 27
+Insulin <= 75
+ imp=0.45890696704213596" -> "id = 55
+Outcome = True" [label=False]
+	"id = 28
+Age <= 28
+ imp=0.4557207498383969" -> "id = 56
+Outcome = False" [label=True]
+	"id = 28
+Age <= 28
+ imp=0.4557207498383969" -> "id = 57
+Outcome = True" [label=False]
+	"id = 29
+SkinThickness <= 24
+ imp=0.0" -> "id = 58
+Outcome = True" [label=True]
+	"id = 29
+SkinThickness <= 24
+ imp=0.0" -> "id = 59
+Outcome = True" [label=False]
+	"id = 30
+SkinThickness <= 38
+ imp=0.14968837309262842" -> "id = 60
+Outcome = True" [label=True]
+	"id = 30
+SkinThickness <= 38
+ imp=0.14968837309262842" -> "id = 61
+Outcome = True" [label=False]
+	"id = 31
+Insulin <= 465
+ imp=0.4202512371526456" -> "id = 62
+Outcome = True" [label=True]
+	"id = 31
+Insulin <= 465
+ imp=0.4202512371526456" -> "id = 63
+Outcome = False" [label=False]
 }
