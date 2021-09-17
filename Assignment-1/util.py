@@ -1,10 +1,32 @@
+# Authors:  Aaditya Agrawal, 19CS10003
+#           Debanjan Saha, 19CS30014
+
 import pandas as pd
 import random
 from model import Node
 from graphviz import Digraph
+import math
 
-def build_data_from_csv(file):
+
+def get_data_from_csv(file):
     dataframe = pd.read_csv(file)
+    return dataframe
+
+def convert_data(dataframe):
+    '''
+    This function accepts a pandas dataframe as input,
+    and returns it after converting it into an array of dictionaries.
+
+    Parameters
+    -----------
+    dataframe: A pandas dataframe containing attributes and the outcome
+
+    Returns
+    -----------
+    data: Array of dictionaries with each element of array corresponding to an example
+            and the corresponding dictionary having attribute as the key  
+    attributes: List of strings, denoting the list of attributes
+    '''
     attributes = list(dataframe.columns)
     num_rows = dataframe.shape[0]
     data = [
@@ -18,17 +40,39 @@ def build_data_from_csv(file):
     attributes.remove("Outcome")
     return data,attributes
 
-def split_node(dataset, attributes, function = None):
+def train_test_split(dataframe):
+    '''
+    This function accepts a pandas dataframe as input,
+    converts it into an array of dictionaries then splits
+    the dataset into training and test examples using an
+    80: 20 split
 
+    Parameters
+    -----------
+    dataframe: A pandas dataframe containing attributes and the outcome
+
+    Returns
+    -----------
+    X_train, X_test: The training and test sets in the form array of dictionaries
+    attributes: List of strings, denoting the list of attributes
+    '''
+
+    X, attributes = convert_data(dataframe)
+    random.shuffle(X)
+    split_point = 0.8*len(X)
+    X_train, X_test = X[:split_point], X[split_point:]
+
+    return X_train, X_test, attributes
+
+def get_best_attr(dataset, attributes, function = None):
     random.shuffle(attributes)
 
     best_attribute_choice = None
-    best_gini_index = 1.0
+    best_index = 2.0
     split_value = -1
 
     num_rows = len(dataset)
     for attribute in attributes:
-        print(attribute)
         data = [
             {
                 "Value": row[attribute],
@@ -37,80 +81,97 @@ def split_node(dataset, attributes, function = None):
             for row in dataset
         ]
 
-        data.sort(key=lambda item:item["Value"])
-
-        for index in range(num_rows - 1):
+        for index in range(num_rows):
             row = data[index]
-            left_positive, left_negative, right_positive, right_negative = 0, 0, 0, 0
+            left_array ,right_array = [], []
             
-            for i in range(0,index+1):
-                if data[i]["Outcome"] == 1:
-                    left_positive += 1
-                else: 
-                    left_negative += 1
+            for i in range(num_rows):
+                if data[i]["Value"] <= data[index]["Value"]:
+                    left_array.append(data[i]["Outcome"])
+                else:
+                    right_array.append(data[i]["Outcome"])
+            left_size =  len(left_array)
+            right_size =  len(right_array)
 
-            for i in range(index+1,num_rows):
-                if data[i]["Outcome"] == 1:
-                    right_positive += 1
-                else: 
-                    right_negative += 1
+            if (left_size == 0) and (right_size == 0):
+                continue
+            elif (left_size == 0):
+                right_impurity = function(right_array)
+                avg_impurity = right_impurity
+            elif (right_size == 0):
+                left_impurity = function(left_array)
+                avg_impurity = left_impurity
+            else:           
+                left_impurity = function(left_array)
+                right_impurity = function(right_array)
+                avg_impurity = (left_impurity * (left_size) + right_impurity * (right_size) ) / num_rows
 
-            assert(left_positive+right_negative+right_positive+left_negative == num_rows)
-            
-            left_gini_impurity = calculate_gini_index(left_positive,left_negative)
-            right_gini_impurity = calculate_gini_index(right_positive,right_negative)
-
-            avg_gini_impurity = ( left_gini_impurity * (index + 1) + right_gini_impurity * (num_rows - index - 1) ) / num_rows
-
-            if avg_gini_impurity < best_gini_index :
-                best_gini_index = avg_gini_impurity
+            if avg_impurity < best_index :
+                best_index = avg_impurity
                 best_attribute_choice = attribute
                 split_value = row["Value"]
+    if(best_attribute_choice == None):
+        print(attributes)
+        print(dataset)
+    return best_attribute_choice,split_value,best_index
 
-    return best_attribute_choice,split_value,best_gini_index
 
+def calculate_gini_index(data):
+    '''
+    This function is a helper function which returns
+    the gini index of the array passed as argument. 
 
-def calculate_gini_index(positive,negative):
-    total = positive + negative
-    print(f'{positive} ,{negative}')
-    return 1.0 - (positive*positive + negative*negative) / (total * total) 
-    
+    Parameters
+    ----------
+    data: array of numbers whose gini index is to be calculated.
 
-def build_decision_tree(dataset, attributes:list,current_height = 0, max_height = 10):
-    
-    if len(dataset) == 0 or len(attributes) == 0:
-        return None
-    
-    if len(dataset) == 1 or current_height>=max_height:
-        return Node("Outcome",dataset[0]["Outcome"])
-
-    best_attribute,split_value,gini_index = split_node ( dataset, attributes )
-
-    left_dataset, right_dataset = [], []
-
-    for row in dataset:
-        if row[best_attribute] <= split_value :
-            left_dataset.append(row)
+    Returns
+    -------
+    var: This is the gini index of the numbers that are given as
+            input in data
+    '''
+    positive, negative, total = 0, 0, len(data)
+    for i in data:
+        if(i == 1):
+            positive += 1
         else:
-            right_dataset.append(row)
+            negative += 1
+    return (2*positive*negative)/(total*total) 
 
-    root = Node(best_attribute,split_value)
+
+def calculate_information_gain(data):
+    '''
+    This function  is a helper which returns the
+    information gain of the array passed as argument. 
+
+    Parameters
+    ----------
+    data: array of numbers whose information gain is to be calculated.
+
+    Returns
+    -------
+    var: This is the information gain of the numbers that are given as
+            input in data.
+    '''
     
-    new_attributes = attributes
-    # new_attributes.pop(new_attributes.index(best_attribute))    
-    
+    positive, negative, total = 0, 0, len(data)
+    for i in data:
+        if(i == 1):
+            positive += 1
+        else:
+            negative += 1
+    total = positive + negative
+    posProb = positive/total
+    negProb = negative/total
+    if(posProb == 0 and negProb == 0):
+        return 0
+    if(posProb == 0):
+        return -negProb*math.log2(negProb)
+    elif(negProb == 0):
+        return -posProb*math.log2(posProb)
+    return -posProb*math.log2(posProb) - negProb*math.log2(negProb)
 
-    left_subtree = build_decision_tree(left_dataset,new_attributes,current_height +1 ,max_height)
-    right_subtree = build_decision_tree(right_dataset, new_attributes, current_height + 1 ,max_height)
 
-    root.left, root.right = left_subtree, right_subtree
-    print(root.details())
-    return root
-
-
-"""
-copy pasted part from siba
-"""
 def print_decision_tree(root):
     
     '''
@@ -149,12 +210,4 @@ def print_decision_tree(root):
     f.render('decision_tree.gv', view=True)
 
 
-
-if __name__ == "__main__":
-    file = open("diabetes.csv","r")
-    dataset,attributes = build_data_from_csv(file)
-    root = build_decision_tree(dataset,attributes,0,5)
-    print("Making Graphviz Graph")
-    print_decision_tree(root)
-    file.close() 
 
