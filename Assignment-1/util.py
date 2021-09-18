@@ -1,12 +1,11 @@
 # Authors:  Aaditya Agrawal, 19CS10003
 #           Debanjan Saha, 19CS30014
-
 import pandas as pd
 import random
-from model import Node
 from graphviz import Digraph
 import math
-
+import model
+from matplotlib import pyplot as plt
 
 def get_data_from_csv(file):
     dataframe = pd.read_csv(file)
@@ -64,7 +63,7 @@ def train_test_split(dataframe):
 
     return X_train, X_test, attributes
 
-def get_best_attr(dataset, attributes, function = None):
+def get_best_attr(dataset, attributes, impurity_function = None):
     random.shuffle(attributes)
 
     best_attribute_choice = None
@@ -96,8 +95,8 @@ def get_best_attr(dataset, attributes, function = None):
             if (left_size == 0) or (right_size == 0):
                 continue
             else:           
-                left_impurity = function(left_array)
-                right_impurity = function(right_array)
+                left_impurity = impurity_function(left_array)
+                right_impurity = impurity_function(right_array)
                 avg_impurity = (left_impurity * (left_size) + right_impurity * (right_size) ) / num_rows
 
             if avg_impurity < best_index :
@@ -164,10 +163,10 @@ def calculate_information_gain(data):
     return -posProb*math.log2(posProb) - negProb*math.log2(negProb)
 
 
-def print_decision_tree(root):
+def print_decision_tree(root, filename = 'decision_tree.gv'):
     
     '''
-    this function prints the ddecision tree graph so created 
+    this function prints the decision tree graph so created 
     and saves the output in the a pdf file 
 
     Parameter
@@ -177,7 +176,7 @@ def print_decision_tree(root):
     '''
 
     # create a new Digraph
-    f = Digraph('Decision Tree', filename='decision_tree.gv')
+    f = Digraph('Decision Tree', filename=filename)
     f.attr(rankdir='LR', size='1000,500')
 
     # border of the nodes is set to rectangle shape
@@ -198,8 +197,101 @@ def print_decision_tree(root):
         if node.right != None:
             q.append(node.right)
 
-    # save file name :  decision_tree.gv.pdf
-    f.render('decision_tree.gv', view=True)
+    # save file name :  {decision_tree}.pdf
+    f.render(filename, view=True)
+
+
+def get_best_depth(dataframe):
+    """
+    A helper function to determine the best possible depth for the decision tree
+    
+    Paramters
+    -----------
+    dataframe : A Pandas Dataframe built from the csv dataset
+    X_test    : Test set  
+
+    Returns:
+    -----------
+    depth     : best depth for which test_dataset performs the best 
+    """
+    best_depth, best_accuracy, best_tree = 10000, 0, None
+    max_depth = 1+int(math.log2(dataframe.shape[0]))
+    X_train, X_test, attributes = train_test_split(dataframe)
+    
+    depthToAccuracy = []
+    nodeCountToAccuracy = []
+
+    from tqdm import tqdm
+    """
+        Progress Bar might be removed for submission files
+    """
+    for depth in tqdm(range(1,max_depth+1)):
+
+        root = model.build_decision_tree(
+            dataset=X_train, 
+            attributes=attributes,
+            impurity_function = calculate_gini_index,
+            current_height = 0,
+            max_height = depth
+        )    
+
+        accuracy = model.get_accuracy(
+            root = root,
+            X_test = X_test
+        )
+
+        if accuracy>best_accuracy:
+            best_depth = depth
+            best_accuracy = accuracy
+            best_tree = root
+
+        # root = model.build_decision_tree(
+        #     dataset=X_train, 
+        #     attributes=attributes,
+        #     impurity_function = calculate_information_gain,
+        #     current_height = 0,
+        #     max_height = depth
+        # )    
+
+        # accuracy = model.get_accuracy(
+        #     root = root,
+        #     X_test = X_test
+        # )
+
+        # if accuracy>best_accuracy:
+        #     best_depth = depth
+        #     best_accuracy = accuracy
+        #     best_tree = root
+
+        depthToAccuracy.append([depth,accuracy])
+        nodeCountToAccuracy.append([root.count_nodes(), accuracy])
+
+    plt.xlabel('Depth')
+    plt.ylabel('Accuracy(%)')
+    plt.title("Accuracy Vs Depth")
+    plt.plot(
+        [x for x,_ in depthToAccuracy],
+        [y for _,y in depthToAccuracy],
+        marker='o',
+        color='red'
+    )
+    plt.savefig('question3_1.pdf')
+
+    nodeCountToAccuracy.sort()
+    plt.clf()
+
+    plt.xlabel('No.of Nodes')
+    plt.ylabel('Accuracy(%)')
+    plt.title("Accuracy Vs No.of Nodes")
+    plt.plot(
+        [x for x,_ in nodeCountToAccuracy],
+        [y for _,y in nodeCountToAccuracy],
+        color='red',
+        marker='o'
+    )
+    plt.savefig('question3_2.pdf')
+
+    return best_depth, best_accuracy, best_tree
 
 
 
