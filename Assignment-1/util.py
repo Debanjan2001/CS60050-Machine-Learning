@@ -1,6 +1,5 @@
 # Authors:  Aaditya Agrawal, 19CS10003
 #           Debanjan Saha, 19CS30014
-
 import pandas as pd
 import random
 from graphviz import Digraph
@@ -164,7 +163,7 @@ def calculate_information_gain(data):
     return -posProb*math.log2(posProb) - negProb*math.log2(negProb)
 
 
-def print_decision_tree(root):
+def print_decision_tree(root, filename = 'decision_tree.gv'):
     
     '''
     this function prints the decision tree graph so created 
@@ -177,7 +176,7 @@ def print_decision_tree(root):
     '''
 
     # create a new Digraph
-    f = Digraph('Decision Tree', filename='decision_tree.gv')
+    f = Digraph('Decision Tree', filename=filename)
     f.attr(rankdir='LR', size='1000,500')
 
     # border of the nodes is set to rectangle shape
@@ -198,19 +197,22 @@ def print_decision_tree(root):
         if node.right != None:
             q.append(node.right)
 
-    # save file name :  decision_tree.gv.pdf
-    f.render('decision_tree.gv', view=True)
+    # save file name :  {decision_tree}.pdf
+    f.render(filename, view=True)
 
 
 def get_best_depth(dataframe):
     """
     A helper function to determine the best possible depth for the decision tree
-    @paramters:
-    ==> dataframe : A Pandas Dataframe built from the csv dataset
-    ==> X_test    : Test set  
+    
+    Paramters
+    -----------
+    dataframe : A Pandas Dataframe built from the csv dataset
+    X_test    : Test set  
 
-    @returns:
-    ==> depth     : best depth for which test_dataset performs the best 
+    Returns:
+    -----------
+    depth     : best depth for which test_dataset performs the best 
     """
     best_depth, best_accuracy, best_tree = 10000, 0, None
     max_depth = 1+int(math.log2(dataframe.shape[0]))
