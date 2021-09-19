@@ -63,6 +63,28 @@ def train_test_split(dataframe):
 
     return X_train, X_test, attributes
 
+def train_valid_split(X):
+    '''
+    This function accepts the training set then splits
+    the dataset into training and validity examples using an
+    75: 25 split. (Compared to whole dataset, the split being 0.8*0.75:0.8*0.25)
+
+    Parameters
+    -----------
+    dataframe: The original training set containing attributes and the outcome
+
+    Returns
+    -----------
+    X_train, X_valid: The training and validity sets in the form array of dictionaries
+    attributes: List of strings, denoting the list of attributes
+    '''
+
+    random.shuffle(X)
+    split_point = int(0.75*len(X))
+    X_train, X_valid = X[:split_point], X[split_point:]
+
+    return X_train, X_valid
+
 def get_best_attr(dataset, attributes, impurity_function = None):
     random.shuffle(attributes)
 
@@ -167,7 +189,7 @@ def print_decision_tree(root, filename = 'decision_tree.gv'):
     
     '''
     this function prints the decision tree graph so created 
-    and saves the output in the a pdf file 
+    and saves the output in a pdf file 
 
     Parameter
     ---------
@@ -215,22 +237,19 @@ def get_best_depth(dataframe):
     depth     : best depth for which test_dataset performs the best 
     """
     best_depth, best_accuracy, best_tree = 10000, 0, None
-    max_depth = 1+int(math.log2(dataframe.shape[0]))
+    max_depth = 10
     X_train, X_test, attributes = train_test_split(dataframe)
+    X_train, _ = train_valid_split(X_train)
     
     depthToAccuracy = []
     nodeCountToAccuracy = []
 
-    from tqdm import tqdm
-    """
-        Progress Bar might be removed for submission files
-    """
-    for depth in tqdm(range(1,max_depth+1)):
+    for depth in range(6,max_depth+1):
 
         root = model.build_decision_tree(
             dataset=X_train, 
             attributes=attributes,
-            impurity_function = calculate_gini_index,
+            impurity_function = calculate_information_gain,
             current_height = 0,
             max_height = depth
         )    
@@ -240,28 +259,10 @@ def get_best_depth(dataframe):
             X_test = X_test
         )
 
-        if accuracy>best_accuracy:
+        if accuracy >= best_accuracy:
             best_depth = depth
             best_accuracy = accuracy
             best_tree = root
-
-        # root = model.build_decision_tree(
-        #     dataset=X_train, 
-        #     attributes=attributes,
-        #     impurity_function = calculate_information_gain,
-        #     current_height = 0,
-        #     max_height = depth
-        # )    
-
-        # accuracy = model.get_accuracy(
-        #     root = root,
-        #     X_test = X_test
-        # )
-
-        # if accuracy>best_accuracy:
-        #     best_depth = depth
-        #     best_accuracy = accuracy
-        #     best_tree = root
 
         depthToAccuracy.append([depth,accuracy])
         nodeCountToAccuracy.append([root.count_nodes(), accuracy])
@@ -275,7 +276,7 @@ def get_best_depth(dataframe):
         marker='o',
         color='red'
     )
-    plt.savefig('question3_1.pdf')
+    plt.savefig('question3_1.png')
 
     nodeCountToAccuracy.sort()
     plt.clf()
@@ -289,7 +290,7 @@ def get_best_depth(dataframe):
         color='red',
         marker='o'
     )
-    plt.savefig('question3_2.pdf')
+    plt.savefig('question3_2.png')
 
     return best_depth, best_accuracy, best_tree
 

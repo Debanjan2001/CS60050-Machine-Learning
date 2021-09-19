@@ -1,0 +1,30 @@
+digraph "Decision Tree" {
+	rankdir=LR size="1000,500"
+	node [shape=rectangle]
+	"id = 1
+Glucose <= 123
+ imp=0.3617860816034833" -> "id = 2
+Age <= 29
+ imp=0.25499895787494903" [label=True]
+	"id = 1
+Glucose <= 123
+ imp=0.3617860816034833" -> "id = 3
+BMI <= 30.0
+ imp=0.4385457931119289" [label=False]
+	"id = 2
+Age <= 29
+ imp=0.25499895787494903" -> "id = 4
+Outcome = False" [label=True]
+	"id = 2
+Age <= 29
+ imp=0.25499895787494903" -> "id = 5
+Outcome = False" [label=False]
+	"id = 3
+BMI <= 30.0
+ imp=0.4385457931119289" -> "id = 6
+Outcome = False" [label=True]
+	"id = 3
+BMI <= 30.0
+ imp=0.4385457931119289" -> "id = 7
+Outcome = True" [label=False]
+}
