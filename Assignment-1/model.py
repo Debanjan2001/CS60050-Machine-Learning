@@ -65,7 +65,7 @@ class Node:
         
         left, right, attribute, value = self.remove_children()
         cur_error = get_error(root, X_valid)
-        if cur_error >= error:
+        if cur_error >= error or root.count_nodes() <= 20:
             self.restore_children( left, right, attribute, value )
         else:
             error = cur_error
@@ -74,7 +74,7 @@ class Node:
         if self.left == None and self.right == None:
             return f'id = {self.index}\n{self.attribute} = {self.value}'
 
-        return f'id = {self.index}\n{self.attribute} <= {self.value}\n imp={self.impurity}'
+        return f'id = {self.index}\n{self.attribute} <= {self.value}\n impurity={round(self.impurity, 4)}'
 
 def build_decision_tree(dataset, attributes:list, impurity_function = None, current_height = 0, max_height = 10,idx = 1):  
     '''
@@ -170,12 +170,37 @@ def predict(root, data):
     return predict(root.right, data)
 
 def predict_list(root, X_input):
+    '''
+    This is a function which predicts the output for a list of data points 
+    on the basis of the decision tree passed as parameter.
+    Parameters
+    ----------
+    root:    This is the root node of the decision tree.
+    X_input: the array of dictionary which contains the input data points
+                whose output have to be predicted
+    Returns
+    -------
+    Y_pred: List of predicted values
+    '''
     Y_pred = []
     for data in X_input:
         Y_pred.append(predict(root, data))
     return Y_pred
 
 def get_accuracy(root, X_test):
+    '''
+    This is a function which predicts the output for a list of data points 
+    on the basis of the decision tree passed as parameter.
+    Parameters
+    ----------
+    root:   This is the root node of the decision tree.
+    X_test: Array of dictionaries. The function predicts the output to 
+            the input points and finds the accuracy using the given
+            output
+    Returns
+    -------
+    Y_pred: List of predicted values
+    '''
     Y_pred = predict_list(root, X_test)
 
     correct_predicted = 0

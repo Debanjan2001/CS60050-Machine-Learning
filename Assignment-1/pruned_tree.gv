@@ -1,0 +1,93 @@
+digraph "Decision Tree" {
+	rankdir=LR size="1000,500"
+	node [shape=rectangle]
+	"id = 1
+Glucose <= 157
+ impurity=0.3645" -> "id = 2
+Outcome = 0" [label=True]
+	"id = 1
+Glucose <= 157
+ impurity=0.3645" -> "id = 3
+BMI <= 21.9
+ impurity=0.0" [label=False]
+	"id = 3
+BMI <= 21.9
+ impurity=0.0" -> "id = 6
+Outcome = False" [label=True]
+	"id = 3
+BMI <= 21.9
+ impurity=0.0" -> "id = 7
+BloodPressure <= 84
+ impurity=0.0" [label=False]
+	"id = 7
+BloodPressure <= 84
+ impurity=0.0" -> "id = 14
+SkinThickness <= 21
+ impurity=0.0" [label=True]
+	"id = 7
+BloodPressure <= 84
+ impurity=0.0" -> "id = 15
+Outcome = True" [label=False]
+	"id = 14
+SkinThickness <= 21
+ impurity=0.0" -> "id = 28
+DiabetesPedigreeFunction <= 0.088
+ impurity=0.0" [label=True]
+	"id = 14
+SkinThickness <= 21
+ impurity=0.0" -> "id = 29
+Pregnancies <= 5
+ impurity=0.0" [label=False]
+	"id = 28
+DiabetesPedigreeFunction <= 0.088
+ impurity=0.0" -> "id = 56
+Outcome = True" [label=True]
+	"id = 28
+DiabetesPedigreeFunction <= 0.088
+ impurity=0.0" -> "id = 57
+Outcome = True" [label=False]
+	"id = 29
+Pregnancies <= 5
+ impurity=0.0" -> "id = 58
+DiabetesPedigreeFunction <= 1.034
+ impurity=0.0" [label=True]
+	"id = 29
+Pregnancies <= 5
+ impurity=0.0" -> "id = 59
+Age <= 39
+ impurity=0.0" [label=False]
+	"id = 58
+DiabetesPedigreeFunction <= 1.034
+ impurity=0.0" -> "id = 116
+Insulin <= 207
+ impurity=0.0" [label=True]
+	"id = 58
+DiabetesPedigreeFunction <= 1.034
+ impurity=0.0" -> "id = 117
+Outcome = True" [label=False]
+	"id = 59
+Age <= 39
+ impurity=0.0" -> "id = 118
+Outcome = True" [label=True]
+	"id = 59
+Age <= 39
+ impurity=0.0" -> "id = 119
+Outcome = True" [label=False]
+	"id = 116
+Insulin <= 207
+ impurity=0.0" -> "id = 232
+Outcome = True" [label=True]
+	"id = 116
+Insulin <= 207
+ impurity=0.0" -> "id = 233
+Age <= 22
+ impurity=0.0" [label=False]
+	"id = 233
+Age <= 22
+ impurity=0.0" -> "id = 466
+Outcome = True" [label=True]
+	"id = 233
+Age <= 22
+ impurity=0.0" -> "id = 467
+Outcome = True" [label=False]
+}
